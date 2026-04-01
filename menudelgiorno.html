@@ -10,126 +10,107 @@
             --colore-testo: #2c3e50; 
             --colore-sfondo: #fdfaf6; 
             --colore-accento: #a04000; 
-            --colore-box: #ffffff;
         }
-        
         body { 
             font-family: 'Lora', serif; 
             background-color: var(--colore-sfondo); 
             color: var(--colore-testo); 
             margin: 0; 
             padding: 15px; 
-            line-height: 1.5; 
         }
-
         .container { 
             max-width: 500px; 
             margin: auto; 
-            background: var(--colore-box); 
+            background: white; 
             padding: 25px; 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
         }
-
-        header { text-align: center; margin-bottom: 30px; border-bottom: 2px double var(--colore-accento); padding-bottom: 20px; }
-        
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--colore-accento); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        
+        header { text-align: center; margin-bottom: 25px; border-bottom: 2px double var(--colore-accento); padding-bottom: 15px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--colore-accento); margin: 0; text-transform: uppercase; }
         .data-oggi { font-size: 1.1rem; font-weight: 600; margin-top: 10px; color: #7f8c8d; }
-
-        .box-prezzi { background: #fffcf0; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 25px; }
         
-        .info-riga { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; border-bottom: 1px dashed #ccc; margin-bottom: 5px; padding-bottom: 2px; }
-        
-        .info-desc { font-size: 0.85rem; color: #666; margin-bottom: 15px; font-style: italic; }
+        /* Box Prezzi Menu Fissi */
+        .box-prezzi { background: #fef9e7; border: 1px dashed #f39c12; padding: 15px; border-radius: 12px; margin-bottom: 25px; }
+        .info-riga { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #1a252f; }
+        .info-desc { font-size: 0.85rem; color: #666; margin-bottom: 12px; font-style: italic; display: block; }
 
+        /* Sezioni Piatti */
         .sezione-titolo { 
             font-family: 'Playfair Display', serif; 
-            font-size: 1.6rem; 
+            font-size: 1.5rem; 
             color: var(--colore-accento); 
-            margin-top: 35px; 
-            margin-bottom: 15px; 
-            background: #fdf2e9;
-            padding: 5px 15px;
-            border-left: 5px solid var(--colore-accento);
+            margin: 30px 0 15px 0; 
+            border-bottom: 2px solid var(--colore-accento);
+            display: inline-block;
         }
-
-        .piatto { margin-bottom: 18px; padding-left: 5px; }
+        .piatto { margin-bottom: 15px; border-bottom: 1px solid #f2f2f2; padding-bottom: 8px; }
+        .piatto-nome { font-weight: 600; font-size: 1.1rem; display: block; color: #2c3e50; }
+        .piatto-desc { font-size: 0.9rem; color: #95a5a6; display: block; }
         
-        .piatto-nome { font-weight: 600; font-size: 1.15rem; display: block; color: #1a252f; }
-        
-        .piatto-desc { font-size: 0.9rem; color: #7f8c8d; display: block; margin-top: 2px; }
-
-        .footer-nota { text-align: center; font-size: 0.8rem; margin-top: 40px; color: #bdc3c7; }
-
-        /* Effetto caricamento */
-        .loading { text-align: center; padding: 50px; font-style: italic; color: #999; }
+        .footer { text-align: center; font-size: 0.8rem; color: #bdc3c7; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1 id="nome-ristorante">Menù del Giorno</h1>
-        <div id="data-display" class="data-oggi">...</div>
+        <h1>Menù del Giorno</h1>
+        <div id="data-display" class="data-oggi">Caricamento...</div>
     </header>
 
     <div id="prezzi-menu" class="box-prezzi">
         </div>
 
-    <div id="menu-content">
-        <div class="loading">Sincronizzazione menù in corso...</div>
-    </div>
+    <div id="lista-piatti">
+        </div>
 
-    <div class="footer-nota">Aggiornato in tempo reale</div>
+    <div class="footer">Aggiornato dal ristoratore tramite Google Sheets</div>
 </div>
 
 <script>
-    // Il tuo link Google Sheets CSV
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDk1_IUuJnywukysgDUcfc4tQ9jyv2II9ozZ3gcGBiGpkrTCow1PWLrJEabdb_dHiYF5OPGwAuEttN/pub?output=csv';
 
     async function caricaMenu() {
         try {
             const response = await fetch(urlCSV);
-            const data = await response.text();
+            const text = await response.text();
             
-            // Gestione righe e separatore (virgola o punto e virgola)
-            const rows = data.split('\n').map(row => row.trim()).filter(row => row !== "");
-            const separator = data.includes(';') ? ';' : ',';
+            // Gestione righe e separatore (rileva se virgola o punto e virgola)
+            const rows = text.split('\n').filter(r => r.trim() !== "");
+            const separator = text.includes(';') ? ';' : ',';
 
-            let htmlMenu = "";
             let htmlPrezzi = "";
+            let htmlPiatti = "";
             let ultimaSezione = "";
             let dataMenu = "Oggi";
 
-            // Partiamo dalla riga 1 per saltare l'intestazione
             for (let i = 1; i < rows.length; i++) {
-                // Pulizia dalle virgolette che mette Google
+                // Pulizia virgolette e spazi
                 const cols = rows[i].split(separator).map(c => c.replace(/^"|"$/g, '').trim());
                 
                 if (cols.length < 3) continue;
 
-                const rData = cols[0];
+                const rData    = cols[0];
                 const rSezione = cols[1].toUpperCase();
-                const rPiatto = cols[2];
-                const rDesc = cols[3] || "";
-                const rPrezzo = cols[4] || "";
+                const rPiatto  = cols[2];
+                const rDesc    = cols[3] || "";
+                const rPrezzo  = cols[4] || "";
 
-                // Salva la data se presente
                 if (rData && dataMenu === "Oggi") dataMenu = rData;
 
-                // Categoria INFO (Prezzi Menu Fissi)
-                if (rSezione === "INFO" && rPiatto) {
+                // LOGICA: Se la sezione è INFO (Prezzi fissi)
+                if (rSezione === "INFO" && rPiatto !== "") {
                     htmlPrezzi += `<div class="info-riga"><span>${rPiatto}</span><span>${rPrezzo}</span></div>`;
-                    if (rDesc) htmlPrezzi += `<div class="info-desc">${rDesc}</div>`;
+                    if (rDesc) htmlPrezzi += `<span class="info-desc">${rDesc}</span>`;
                 } 
-                // Categorie Piatti (PRIMI, SECONDI, ECC)
-                else if (rPiatto && rPiatto !== "" && rSezione !== "DATA") {
+                // LOGICA: Se sono piatti (PRIMI, SECONDI, CONTORNI)
+                else if (rPiatto !== "") {
                     if (rSezione !== ultimaSezione) {
-                        htmlMenu += `<div class="sezione-titolo">${rSezione}</div>`;
+                        htmlPiatti += `<div class="sezione-titolo">${rSezione}</div>`;
                         ultimaSezione = rSezione;
                     }
-                    htmlMenu += `
+                    htmlPiatti += `
                         <div class="piatto">
                             <span class="piatto-nome">${rPiatto}</span>
                             ${rDesc ? `<span class="piatto-desc">${rDesc}</span>` : ""}
@@ -138,12 +119,11 @@
             }
 
             document.getElementById('data-display').innerText = dataMenu;
-            document.getElementById('prezzi-menu').innerHTML = htmlPrezzi || "Consultare i prezzi alla carta";
-            document.getElementById('menu-content').innerHTML = htmlMenu;
+            document.getElementById('prezzi-menu').innerHTML = htmlPrezzi || "Vedi prezzi alla carta";
+            document.getElementById('lista-piatti').innerHTML = htmlPiatti;
 
-        } catch (error) {
-            console.error("Errore:", error);
-            document.getElementById('menu-content').innerHTML = "<div class='loading'>Impossibile caricare il menù. Riprova più tardi.</div>";
+        } catch (e) {
+            document.getElementById('data-display').innerText = "Errore di connessione al menù";
         }
     }
 
