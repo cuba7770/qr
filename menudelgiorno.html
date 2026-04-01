@@ -10,11 +10,11 @@
         body { font-family: 'Lora', serif; background-color: var(--colore-sfondo); color: var(--colore-testo); margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
         header { text-align: center; margin-bottom: 25px; border-bottom: 2px double var(--colore-accento); padding-bottom: 15px; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--colore-accento); margin: 0; text-transform: uppercase; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--colore-accento); margin: 0; text-transform: uppercase; }
         .data-oggi { font-size: 1.1rem; font-weight: 600; margin-top: 10px; color: #7f8c8d; }
         .box-prezzi { background: #fef9e7; border: 1px dashed #f39c12; padding: 15px; border-radius: 12px; margin-bottom: 25px; }
-        .info-riga { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #1a252f; border-bottom: 1px solid #eee; margin-bottom: 5px; }
-        .info-desc { font-size: 0.85rem; color: #666; margin-bottom: 12px; font-style: italic; display: block; }
+        .info-riga { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #1a252f; margin-bottom: 2px; }
+        .info-desc { font-size: 0.85rem; color: #666; margin-bottom: 12px; font-style: italic; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .sezione-titolo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--colore-accento); margin: 30px 0 15px 0; border-bottom: 2px solid var(--colore-accento); display: inline-block; }
         .piatto { margin-bottom: 15px; border-bottom: 1px solid #f2f2f2; padding-bottom: 8px; }
         .piatto-nome { font-weight: 600; font-size: 1.1rem; display: block; color: #2c3e50; }
@@ -22,13 +22,11 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <header>
-        <h1 id="nome-ristorante">Menù del Giorno</h1>
+        <h1>Menù del Giorno</h1>
         <div id="data-display" class="data-oggi">Sincronizzazione...</div>
     </header>
-
     <div id="prezzi-menu" class="box-prezzi"></div>
     <div id="lista-piatti"></div>
 </div>
@@ -40,30 +38,34 @@
         try {
             const response = await fetch(urlCSV);
             const text = await response.text();
-            const rows = text.split('\n').filter(r => r.trim() !== "");
-            const separator = text.includes(';') ? ';' : ',';
-
+            
+            // Gestione avanzata delle righe per evitare errori con le virgole nelle descrizioni
+            const rows = text.split(/\r?\n/).filter(r => r.trim() !== "");
+            
             let htmlPrezzi = "";
             let htmlPiatti = "";
             let ultimaSezione = "";
             let dataMenu = "Oggi";
 
             for (let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(separator).map(c => c.replace(/^"|"$/g, '').trim());
-                if (cols.length < 3) continue;
+                // Questa regex magica separa le colonne anche se ci sono virgole dentro i testi tra virgolette
+                const cols = rows[i].match(/(".*?"|[^",; \s][^",;]*|(?<=^|,|;)(?=$|,|;))/g) || [];
+                const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
 
-                const rData    = cols[0];
-                const rSezione = cols[1].toUpperCase();
-                const rPiatto  = cols[2];
-                const rDesc    = cols[3] || "";
-                const rPrezzo  = cols[4] || ""; // Legge correttamente la colonna E
+                if (cleanCols.length < 3) continue;
+
+                const rData    = cleanCols[0];
+                const rSezione = cleanCols[1] ? cleanCols[1].toUpperCase() : "";
+                const rPiatto  = cleanCols[2] || "";
+                const rDesc    = cleanCols[3] || "";
+                const rPrezzo  = cleanCols[4] || "";
 
                 if (rData && dataMenu === "Oggi") dataMenu = rData;
 
                 if (rSezione === "INFO") {
                     htmlPrezzi += `<div class="info-riga"><span>${rPiatto}</span><span>${rPrezzo}</span></div>`;
                     if (rDesc) htmlPrezzi += `<span class="info-desc">${rDesc}</span>`;
-                } else {
+                } else if (rPiatto !== "") {
                     if (rSezione !== ultimaSezione) {
                         htmlPiatti += `<div class="sezione-titolo">${rSezione}</div>`;
                         ultimaSezione = rSezione;
@@ -72,7 +74,7 @@
                 }
             }
             document.getElementById('data-display').innerText = dataMenu;
-            document.getElementById('prezzi-menu').innerHTML = htmlPrezzi;
+            document.getElementById('prezzi-menu').innerHTML = htmlPrezzi || "Consultare il personale";
             document.getElementById('lista-piatti').innerHTML = htmlPiatti;
         } catch (e) {
             document.getElementById('data-display').innerText = "Errore di caricamento";
