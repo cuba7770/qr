@@ -11,22 +11,20 @@
         .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
         header { margin-bottom: 25px; border-bottom: 2px double var(--colore-accento); padding-bottom: 15px; }
         
-        /* Nome del Ristorante (Il più grande) */
         h1 { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--colore-accento); margin: 0; text-transform: uppercase; line-height: 1.1; }
-        
-        /* Tipo di Menù (es. Menù di Pasqua) */
         .tipo-menu { font-size: 1.2rem; letter-spacing: 1px; color: #7f8c8d; text-transform: uppercase; margin-top: 5px; display: block; font-weight: 600; }
-        
         .data-oggi { font-size: 0.95rem; font-weight: 400; margin-top: 15px; color: #95a5a6; border-top: 1px solid #f2f2f2; padding-top: 10px; display: inline-block; }
         
+        /* Box INFO (Menu Fisso) rimane a sinistra per i prezzi */
         .box-prezzi { background: #fef9e7; border: 1px dashed #f39c12; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: left; }
         .info-riga { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; }
         .info-desc { font-size: 0.85rem; color: #666; margin-bottom: 10px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         
-        .sezione-titolo { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--colore-accento); margin: 35px 0 15px 0; border-bottom: 2px solid var(--colore-accento); display: inline-block; }
-        .piatto { margin-bottom: 15px; text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 8px; }
+        /* SEZIONI E PIATTI CENTRATI */
+        .sezione-titolo { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--colore-accento); margin: 35px 0 15px 0; border-bottom: 2px solid var(--colore-accento); display: inline-block; text-align: center; }
+        .piatto { margin-bottom: 15px; text-align: center; border-bottom: 1px solid #f2f2f2; padding-bottom: 8px; }
         .piatto-nome { font-weight: 600; font-size: 1.1rem; display: block; }
-        .piatto-desc { font-size: 0.9rem; color: #95a5a6; display: block; }
+        .piatto-desc { font-size: 0.9rem; color: #95a5a6; display: block; margin: 0 auto; max-width: 80%; }
     </style>
 </head>
 <body>
@@ -66,13 +64,11 @@
                 const rDesc    = cleanCols[3] || "";
                 const rPrezzo  = cleanCols[4] || "";
 
-                // Gestione NOME e SOTTOTITOLO (TIPO MENU)
                 if (rSezione === "NOME") {
                     document.getElementById('nome-locale').innerText = rPiatto;
                     document.getElementById('tipo-menu').innerText = rDesc;
                     continue;
                 }
-
                 if (rData && !dataMenu) dataMenu = rData;
 
                 if (rSezione === "INFO") {
@@ -89,7 +85,6 @@
             document.getElementById('data-display').innerText = dataMenu;
             document.getElementById('prezzi-menu').innerHTML = htmlPrezzi;
             document.getElementById('lista-piatti').innerHTML = htmlPiatti;
-
         } catch (e) { document.getElementById('data-display').innerText = "Errore connessione"; }
     }
     caricaMenu();
