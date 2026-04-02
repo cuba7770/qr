@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestione Menù Digital - iArtService</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #059669;
+            --bg-page: #e2e8f0;
+            --bg-card: #ffffff;
+            --bg-input: #f0f7ff; 
+            --text-dark: #1e293b;
+            --text-label: #64748b;
+            --border-color: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-page);
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        header {
+            position: sticky; top: 0;
+            background: #1e293b; color: white;
+            padding: 18px; text-align: center;
+            font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 600px; margin: 0 auto;
+            padding: 15px; padding-bottom: 120px;
+        }
+
+        .box {
+            background: var(--bg-card);
+            padding: 22px; border-radius: 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .titolo-sezione {
+            font-size: 1.2rem; font-weight: 900;
+            color: var(--primary); margin-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
+        }
+
+        .riga {
+            margin-bottom: 20px; padding: 15px;
+            background: #f8fafc; border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-descrizione {
+            font-size: 0.9rem; color: #475569;
+            background: #fff; padding: 8px 12px;
+            border-radius: 8px; margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        label {
+            display: block; font-size: 0.75rem;
+            font-weight: 800; color: var(--text-label);
+            margin-bottom: 6px; margin-top: 12px;
+            text-transform: uppercase;
+        }
+
+        input, textarea {
+            width: 100%; padding: 14px;
+            border-radius: 10px; border: 2px solid var(--border-color);
+            background-color: var(--bg-input);
+            font-size: 16px; color: #0f172a;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none; border-color: var(--primary);
+            background-color: #ffffff;
+        }
+
+        textarea { height: 85px; resize: none; }
+
+        .badge-categoria {
+            display: inline-block; padding: 4px 12px;
+            background: var(--primary); color: white;
+            border-radius: 8px; font-size: 0.7rem;
+            font-weight: 900; margin-bottom: 10px;
+        }
+
+        .footer-save {
+            position: fixed; bottom: 0; left: 0;
+            width: 100%; padding: 20px;
+            background: white; border-top: 1px solid #cbd5e1;
+            display: flex; justify-content: center;
+            box-sizing: border-box; z-index: 1001;
+        }
+
+        .btn-save-all {
+            background: var(--success); color: white;
+            border: none; padding: 18px;
+            border-radius: 15px; width: 100%;
+            max-width: 500px; font-size: 1.2rem;
+            font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-save-all:disabled {
+            background: #94a3b8; cursor: not-allowed;
+            transform: scale(0.98);
+        }
+
+        /* ALERT BELLO */
+        #alert {
+            position: fixed; top: 80px; left: 50%;
+            transform: translateX(-50%);
+            background: #064e3b; color: white;
+            padding: 12px 25px; border-radius: 50px;
+            display: none; z-index: 2000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            animation: slideDown 0.4s ease;
+        }
+
+        /* OVERLAY DI CARICAMENTO PER REFRESH */
+        #loader {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(30, 41, 59, 0.9);
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            color: white; z-index: 3000;
+            backdrop-filter: blur(5px);
+        }
+
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #334155;
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 80px; opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="spinner"></div>
+    <div style="font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Sincronizzazione...</div>
+</div>
+
+<header>iArt Menù Admin</header>
+<div id="alert">✅ Menù salvato correttamente!</div>
+
+<div class="container">
+    <div id="dataBox" class="box">
+        <div class="titolo-sezione">📅 Data</div>
+        <div id="dataContent">Recupero dati in corso...</div>
+    </div>
+
+    <div id="infoBox" class="box">
+        <div class="titolo-sezione">💰 Menù Fisso</div>
+        <div id="infoContent">Recupero dati in corso...</div>
+    </div>
+
+    <div id="piattiBox" class="box">
+        <div class="titolo-sezione">🍝 Piatti del Giorno</div>
+        <div id="piattiContent">Recupero dati in corso...</div>
+    </div>
+</div>
+
+<div class="footer-save">
+    <button id="mainBtn" class="btn-save-all" onclick="saveAll()">SALVA MODIFICHE</button>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzvlF4TUGW77WNY7zkzTKU3wbu1WPt18mvqF33aTG2ETYn5xMNolljb8AYOfk1UL4r3/exec";
+let globalRows = [];
+
+async function loadMenu() {
+    try {
+        const res = await fetch(API);
+        const json = await res.json();
+        globalRows = json.rows;
+        renderAll();
+    } catch (e) {
+        document.body.innerHTML = "<div style='padding:50px; text-align:center;'>Errore di connessione. Ricarica la pagina.</div>";
+    }
+}
+
+function renderAll() {
+    const dataVal = globalRows[2].values[0];
+    document.getElementById("dataContent").innerHTML = `
+        <label>Data visualizzata sul sito</label>
+        <input id="dateField" type="text" value="${dataVal}">
+    `;
+
+    let infoHtml = '';
+    globalRows.forEach(r => {
+        if (r.values[1] === "INFO") {
+            infoHtml += `
+                <div class="riga">
+                    <div class="info-descrizione"><b>${r.values[2]}</b><br><small>${r.values[3]}</small></div>
+                    <label>Prezzo (€)</label>
+                    <input id="info_${r.rowIndex}" type="text" inputmode="decimal" value="${r.values[4]}">
+                </div>
+            `;
+        }
+    });
+    document.getElementById("infoContent").innerHTML = infoHtml || "Nessun menu configurato.";
+
+    let piattiHtml = '';
+    globalRows.forEach(r => {
+        const cat = r.values[1];
+        if (["PRIMI", "SECONDI", "CONTORNI"].includes(cat)) {
+            piattiHtml += `
+                <div class="riga">
+                    <span class="badge-categoria">${cat}</span>
+                    <label>Nome Piatto</label>
+                    <input id="name_${r.rowIndex}" type="text" value="${r.values[2] || ""}">
+                    <label>Descrizione / Ingredienti</label>
+                    <textarea id="desc_${r.rowIndex}">${r.values[3] || ""}</textarea>
+                </div>
+            `;
+        }
+    });
+    document.getElementById("piattiContent").innerHTML = piattiHtml || "Nessuna riga piatti trovata.";
+}
+
+async function saveAll() {
+    const btn = document.getElementById('mainBtn');
+    btn.innerText = "INVIO IN CORSO...";
+    btn.disabled = true;
+
+    const payload = { action: "saveAll", data: [] };
+
+    globalRows.forEach(r => {
+        let rowData = {
+            rowIndex: r.rowIndex,
+            A: r.values[0], B: r.values[1], C: r.values[2], D: r.values[3], E: r.values[4]
+        };
+
+        if (r.rowIndex === 2) rowData.A = document.getElementById("dateField").value;
+        if (r.values[1] === "INFO") {
+            const val = document.getElementById("info_" + r.rowIndex);
+            if (val) rowData.E = val.value;
+        }
+        if (["PRIMI", "SECONDI", "CONTORNI"].includes(r.values[1])) {
+            const n = document.getElementById("name_" + r.rowIndex);
+            const d = document.getElementById("desc_" + r.rowIndex);
+            if (n) rowData.C = n.value;
+            if (d) rowData.D = d.value;
+        }
+        payload.data.push(rowData);
+    });
+
+    try {
+        await fetch(API, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(payload)
+        });
+
+        // Step 1: Mostra l'alert verde
+        document.getElementById("alert").style.display = "block";
+        
+        // Step 2: Dopo 1 secondo mostra il caricamento "bello"
+        setTimeout(() => {
+            document.getElementById("alert").style.display = "none";
+            document.getElementById("loader").style.display = "flex";
+        }, 1200);
+
+        // Step 3: Refresh finale
+        setTimeout(() => { 
+            window.location.reload(); 
+        }, 2500);
+
+    } catch (e) {
+        alert("Errore tecnico: " + e.message);
+        btn.disabled = false;
+        btn.innerText = "RIPROVA SALVATAGGIO";
+    }
+}
+
+loadMenu();
+</script>
+</body>
+</html>
