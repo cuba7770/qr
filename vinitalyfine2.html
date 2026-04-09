@@ -18,17 +18,15 @@
 
         #mapContainer svg { max-height: 380px; }
         
-        /* Mobile Map Adjustments */
         @media (max-width: 768px) {
             #mapContainer svg { transform: scale(1.15); transform-origin: center; }
         }
         
-        /* Card compatte e vicine */
         .card { transition: all 0.2s ease; background: white; border-radius: 16px; color: #0f172a; }
         .card:hover { transform: scale(1.02); }
         
-        /* WhatsApp Mobile Bar */
-        .wa-mobile-bar {
+        /* Floating Bar Mobile */
+        .order-mobile-bar {
             display: none;
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -40,9 +38,9 @@
             text-transform: uppercase;
             z-index: 100;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            letter-spacing: 0.1em;
         }
 
-        /* WhatsApp Desktop Side */
         .side-wa { 
             background: #16a34a; 
             color: white; 
@@ -51,7 +49,7 @@
         }
 
         @media (max-width: 768px) {
-            .wa-mobile-bar { display: block; }
+            .order-mobile-bar { display: block; }
             .side-wa { display: none; }
         }
 
@@ -88,7 +86,7 @@
                     <g id="svg-PALAEXPO" onclick="selectFromMap('PALAEXPO')"><rect class="pavilion" x="350" y="380" width="200" height="45" rx="10" /><text class="pavilion-text" x="450" y="408" text-anchor="middle" style="font-size:10px">PALAEXPO</text></g>
                 </svg>
             </div>
-            <a href="https://wa.me/393331395730" target="_blank" class="side-wa hidden md:flex items-center justify-center px-4 font-black uppercase text-[10px] tracking-widest border-l border-white/20">Se vuoi ordinare</a>
+            <a href="https://wa.me/393331395730" target="_blank" class="side-wa hidden md:flex items-center justify-center px-4 font-black uppercase text-[10px] tracking-widest border-l border-white/20">ORDINA ORA</a>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
@@ -101,7 +99,7 @@
         <div id="grid" class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4"></div>
     </main>
 
-    <a href="https://wa.me/393331395730" target="_blank" class="wa-mobile-bar">Ordina ora su WhatsApp →</a>
+    <a href="https://wa.me/393331395730" target="_blank" class="order-mobile-bar">ORDINA ORA</a>
 
     <script>
         const exhibitors = [
@@ -178,14 +176,14 @@
             document.getElementById('grid').innerHTML = filtered.map(ex => `
                 <div class="card p-3 md:p-5 flex flex-col justify-between cursor-pointer" onclick="clickCard('${ex.h}')">
                     <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[8px] font-black bg-amber-500 px-2 py-0.5 rounded uppercase">${ex.h}</span>
-                            <span class="text-[8px] font-bold text-slate-400">St. ${ex.p}</span>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <span class="text-[10px] md:text-[12px] font-black bg-amber-500 px-2 py-0.5 rounded uppercase">${ex.h}</span>
+                            <span class="text-[10px] md:text-[12px] font-bold text-slate-500">St. ${ex.p}</span>
                         </div>
-                        <h3 class="font-black text-[10px] md:text-sm uppercase leading-tight mb-0.5">${ex.n}</h3>
-                        <p class="text-amber-700 text-[8px] md:text-[9px] font-bold uppercase">${ex.r}</p>
+                        <h3 class="font-black text-[11px] md:text-sm uppercase leading-tight mb-1">${ex.n}</h3>
+                        <p class="text-amber-700 text-[9px] md:text-[10px] font-bold uppercase">${ex.r}</p>
                     </div>
-                    <a href="${ex.l}" target="_blank" onclick="event.stopPropagation()" class="mt-3 block text-center py-2 bg-slate-900 text-white rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-amber-600 transition-colors">Link Vinitaly</a>
+                    <a href="${ex.l}" target="_blank" onclick="event.stopPropagation()" class="mt-4 block text-center py-2.5 bg-slate-900 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-amber-600 transition-colors">Link Vinitaly</a>
                 </div>
             `).join('');
         }
