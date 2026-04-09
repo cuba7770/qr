@@ -10,7 +10,7 @@
         body { font-family: 'Outfit', sans-serif; background-color: #111827; color: #f8fafc; }
         .vinitaly-header { background: #000000; border-bottom: 2px solid #d97706; }
         
-        /* Mappa Compatta */
+        /* Mappa */
         .pavilion { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; transition: all 0.2s ease; cursor: pointer; }
         .pavilion.active { fill: #b91c1c !important; stroke: #fcd34d; filter: drop-shadow(0 0 12px rgba(185, 28, 28, 0.6)); }
         .pavilion-text { font-size: 13px; font-weight: 900; fill: #1e293b; pointer-events: none; text-transform: uppercase; }
@@ -19,13 +19,12 @@
         #mapContainer svg { max-height: 380px; }
         
         @media (max-width: 768px) {
-            #mapContainer svg { transform: scale(1.15); transform-origin: center; }
+            #mapContainer svg { transform: scale(1.1); transform-origin: center; }
         }
         
         .card { transition: all 0.2s ease; background: white; border-radius: 16px; color: #0f172a; }
         .card:hover { transform: scale(1.02); }
         
-        /* Floating Bar Mobile */
         .order-mobile-bar {
             display: none;
             position: fixed;
@@ -38,7 +37,6 @@
             text-transform: uppercase;
             z-index: 100;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-            letter-spacing: 0.1em;
         }
 
         .side-wa { 
@@ -69,21 +67,22 @@
                 <svg viewBox="100 0 700 430" class="w-full h-auto">
                     <rect x="150" y="15" width="500" height="400" fill="#e2e8f0" rx="20"/>
                     
-                    <g id="svg-Hall-3" onclick="selectFromMap('Hall 3')"><rect class="pavilion" x="550" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="154" text-anchor="middle">Hall 3</text></g>
-                    <g id="svg-Hall-2" onclick="selectFromMap('Hall 2')"><rect class="pavilion" x="550" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="239" text-anchor="middle">Hall 2</text></g>
-                    <g id="svg-Hall-1" onclick="selectFromMap('Hall 1')"><rect class="pavilion" x="550" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="324" text-anchor="middle">Hall 1</text></g>
+                    <g id="svg-Hall-3" onclick="selectFromMap('Hall 3')"><rect class="pavilion" x="550" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="154" text-anchor="middle">3</text></g>
+                    <g id="svg-Hall-2" onclick="selectFromMap('Hall 2')"><rect class="pavilion" x="550" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="239" text-anchor="middle">2</text></g>
+                    <g id="svg-Hall-1" onclick="selectFromMap('Hall 1')"><rect class="pavilion" x="550" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="324" text-anchor="middle">1</text></g>
                     
-                    <g id="svg-Hall-5" onclick="selectFromMap('Hall 5')"><rect class="pavilion" x="455" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="154" text-anchor="middle">Hall 5</text></g>
-                    <g id="svg-Hall-4" onclick="selectFromMap('Hall 4')"><rect class="pavilion" x="455" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="239" text-anchor="middle">Hall 4</text></g>
+                    <g id="svg-Hall-5" onclick="selectFromMap('Hall 5')"><rect class="pavilion" x="455" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="154" text-anchor="middle">5</text></g>
+                    <g id="svg-Hall-4" onclick="selectFromMap('Hall 4')"><rect class="pavilion" x="455" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="239" text-anchor="middle">4</text></g>
 
-                    <g id="svg-Hall-8" onclick="selectFromMap('Hall 8')"><rect class="pavilion" x="360" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="69" text-anchor="middle">Hall 8</text></g>
-                    <g id="svg-Hall-7" onclick="selectFromMap('Hall 7')"><rect class="pavilion" x="360" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="154" text-anchor="middle">Hall 7</text></g>
-                    <g id="svg-Hall-6" onclick="selectFromMap('Hall 6')"><rect class="pavilion" x="360" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="239" text-anchor="middle">Hall 6</text></g>
+                    <g id="svg-Hall-8" onclick="selectFromMap('Hall 8')"><rect class="pavilion" x="360" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="69" text-anchor="middle">8</text></g>
+                    <g id="svg-Hall-7" onclick="selectFromMap('Hall 7')"><rect class="pavilion" x="360" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="154" text-anchor="middle">7</text></g>
+                    <g id="svg-Hall-6" onclick="selectFromMap('Hall 6')"><rect class="pavilion" x="360" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="239" text-anchor="middle">6</text></g>
+                    <g id="svg-Hall-B" onclick="selectFromMap('Hall B')"><rect class="pavilion" x="360" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="324" text-anchor="middle">B</text></g>
 
-                    <g id="svg-Hall-10" onclick="selectFromMap('Hall 10')"><rect class="pavilion" x="265" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="305" y="69" text-anchor="middle">Hall 10</text></g>
-                    <g id="svg-Hall-9" onclick="selectFromMap('Hall 9')"><rect class="pavilion" x="265" y="115" width="80" height="155" rx="8" /><text class="pavilion-text" x="305" y="197" text-anchor="middle">Hall 9</text></g>
+                    <g id="svg-Hall-10" onclick="selectFromMap('Hall 10')"><rect class="pavilion" x="265" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="305" y="69" text-anchor="middle">10</text></g>
+                    <g id="svg-Hall-9" onclick="selectFromMap('Hall 9')"><rect class="pavilion" x="265" y="115" width="80" height="155" rx="8" /><text class="pavilion-text" x="305" y="197" text-anchor="middle">9</text></g>
 
-                    <g id="svg-Hall-11" onclick="selectFromMap('Hall 11')"><rect class="pavilion" x="170" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="210" y="239" text-anchor="middle">Hall 11</text></g>
+                    <g id="svg-Hall-11" onclick="selectFromMap('Hall 11')"><rect class="pavilion" x="170" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="210" y="239" text-anchor="middle">11</text></g>
                     
                     <g id="svg-PALAEXPO" onclick="selectFromMap('PALAEXPO')"><rect class="pavilion" x="265" y="370" width="270" height="30" rx="6" /><text class="pavilion-text" x="400" y="389" text-anchor="middle" style="font-size:10px">PALAEXPO</text></g>
                 </svg>
@@ -140,6 +139,8 @@
             { n: "GIANNI DOGLIA", r: "PIEMONTE", h: "Hall 10", p: "N2", l: "https://vinitalyplus.com/it/companies/3775_260183531/gianni-doglia" },
             { n: "TERRA DEI RE", r: "BASILICATA", h: "Hall 11", p: "E5", l: "https://vinitalyplus.com/it/companies/rg1a6HFshUeC88FTlkm05Q/terra-dei-re" },
             { n: "CANTINE BARSENTO", r: "PUGLIA", h: "Hall 11", p: "C3", l: "https://vinitalyplus.com/it/companies/S-r9RltLVEGf-zBBTm_Ksg/cantine-barsento" },
+            { n: "ANTONIO MAZZELLA", r: "CAMPANIA", h: "Hall B", p: "166-167", l: "https://vinitalyplus.com/it/companies/4476_260156371/cantine-antonio-mazzella-ssa-ischia" },
+            { n: "SAN SALVATORE 19.88 (Campania)", r: "CAMPANIA", h: "Hall B", p: "111-113", l: "https://vinitalyplus.com/it/companies/4464_260203853/azienda-agricola-san-salvatore" },
             { n: "TENUTE DEL GARDA", r: "LOMBARDIA", h: "PALAEXPO", p: "D8", l: "https://vinitalyplus.com/it/companies/DJCplYNVWIuvSsf6Hi-DG/tenute-del-garda" },
             { n: "TENUTA ROVEGLIA", r: "LOMBARDIA", h: "PALAEXPO", p: "A4", l: "https://vinitalyplus.com/it/companies/3010_260153287/tenuta-roveglia" },
             { n: "CASCINA CORTE", r: "PIEMONTE", h: "PALAEXPO", p: "SALA ARGENTO", l: "https://vinitalyplus.com/it/companies/2923_260183526/cascina-corte-di-barosi-alessandro" }
@@ -148,7 +149,8 @@
         function highlight(h) {
             document.querySelectorAll('.pavilion').forEach(p => p.classList.remove('active'));
             if (!h) return;
-            const el = document.querySelector(`#svg-${h.replace(/\s+/g, '-')} .pavilion`);
+            const id = `svg-${h.replace(/\s+/g, '-')}`;
+            const el = document.querySelector(`#${id} .pavilion`);
             if (el) el.classList.add('active');
         }
 
