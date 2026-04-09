@@ -10,17 +10,15 @@
         body { font-family: 'Outfit', sans-serif; background-color: #111827; color: #f8fafc; }
         .vinitaly-header { background: #000000; border-bottom: 2px solid #d97706; }
         
-        /* Mappa */
+        /* Mappa Ottimizzata */
         .pavilion { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; transition: all 0.2s ease; cursor: pointer; }
-        .pavilion.active { fill: #b91c1c !important; stroke: #fcd34d; filter: drop-shadow(0 0 12px rgba(185, 28, 28, 0.6)); }
-        .pavilion-text { font-size: 13px; font-weight: 900; fill: #1e293b; pointer-events: none; text-transform: uppercase; }
+        .pavilion.active { fill: #b91c1c !important; stroke: #fcd34d; filter: drop-shadow(0 0 15px rgba(185, 28, 28, 0.7)); }
+        
+        /* Numeri Grandi */
+        .pavilion-text { font-size: 26px; font-weight: 900; fill: #1e293b; pointer-events: none; text-transform: uppercase; }
         .pavilion.active + .pavilion-text { fill: #ffffff !important; }
 
-        #mapContainer svg { max-height: 380px; }
-        
-        @media (max-width: 768px) {
-            #mapContainer svg { transform: scale(1.1); transform-origin: center; }
-        }
+        #mapContainer svg { max-height: 450px; width: 100%; }
         
         .card { transition: all 0.2s ease; background: white; border-radius: 16px; color: #0f172a; }
         .card:hover { transform: scale(1.02); }
@@ -49,6 +47,7 @@
         @media (max-width: 768px) {
             .order-mobile-bar { display: block; }
             .side-wa { display: none; }
+            #mapContainer svg { transform: scale(1.05); }
         }
 
         select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23d97706'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1em; }
@@ -63,28 +62,28 @@
     <main class="max-w-6xl mx-auto px-2 -mt-14 relative z-20">
         
         <div class="flex items-stretch bg-slate-100 rounded-[30px] shadow-2xl overflow-hidden mb-6 border-4 border-slate-800">
-            <div class="flex-grow p-2 md:p-6" id="mapContainer">
-                <svg viewBox="100 0 700 430" class="w-full h-auto">
-                    <rect x="150" y="15" width="500" height="400" fill="#e2e8f0" rx="20"/>
+            <div class="flex-grow p-1 md:p-4" id="mapContainer">
+                <svg viewBox="165 25 475 385" class="w-full h-auto">
+                    <rect x="165" y="25" width="475" height="385" fill="#f1f5f9" rx="15"/>
                     
-                    <g id="svg-Hall-3" onclick="selectFromMap('Hall 3')"><rect class="pavilion" x="550" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="154" text-anchor="middle">3</text></g>
-                    <g id="svg-Hall-2" onclick="selectFromMap('Hall 2')"><rect class="pavilion" x="550" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="239" text-anchor="middle">2</text></g>
-                    <g id="svg-Hall-1" onclick="selectFromMap('Hall 1')"><rect class="pavilion" x="550" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="324" text-anchor="middle">1</text></g>
+                    <g id="svg-Hall-3" onclick="selectFromMap('Hall 3')"><rect class="pavilion" x="550" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="158" text-anchor="middle">3</text></g>
+                    <g id="svg-Hall-2" onclick="selectFromMap('Hall 2')"><rect class="pavilion" x="550" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="243" text-anchor="middle">2</text></g>
+                    <g id="svg-Hall-1" onclick="selectFromMap('Hall 1')"><rect class="pavilion" x="550" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="590" y="328" text-anchor="middle">1</text></g>
                     
-                    <g id="svg-Hall-5" onclick="selectFromMap('Hall 5')"><rect class="pavilion" x="455" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="154" text-anchor="middle">5</text></g>
-                    <g id="svg-Hall-4" onclick="selectFromMap('Hall 4')"><rect class="pavilion" x="455" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="239" text-anchor="middle">4</text></g>
+                    <g id="svg-Hall-5" onclick="selectFromMap('Hall 5')"><rect class="pavilion" x="455" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="158" text-anchor="middle">5</text></g>
+                    <g id="svg-Hall-4" onclick="selectFromMap('Hall 4')"><rect class="pavilion" x="455" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="495" y="243" text-anchor="middle">4</text></g>
 
-                    <g id="svg-Hall-8" onclick="selectFromMap('Hall 8')"><rect class="pavilion" x="360" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="69" text-anchor="middle">8</text></g>
-                    <g id="svg-Hall-7" onclick="selectFromMap('Hall 7')"><rect class="pavilion" x="360" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="154" text-anchor="middle">7</text></g>
-                    <g id="svg-Hall-6" onclick="selectFromMap('Hall 6')"><rect class="pavilion" x="360" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="239" text-anchor="middle">6</text></g>
-                    <g id="svg-Hall-B" onclick="selectFromMap('Hall B')"><rect class="pavilion" x="360" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="324" text-anchor="middle">B</text></g>
+                    <g id="svg-Hall-8" onclick="selectFromMap('Hall 8')"><rect class="pavilion" x="360" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="73" text-anchor="middle">8</text></g>
+                    <g id="svg-Hall-7" onclick="selectFromMap('Hall 7')"><rect class="pavilion" x="360" y="115" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="158" text-anchor="middle">7</text></g>
+                    <g id="svg-Hall-6" onclick="selectFromMap('Hall 6')"><rect class="pavilion" x="360" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="243" text-anchor="middle">6</text></g>
+                    <g id="svg-Hall-B" onclick="selectFromMap('Hall B')"><rect class="pavilion" x="360" y="285" width="80" height="70" rx="8" /><text class="pavilion-text" x="400" y="328" text-anchor="middle">B</text></g>
 
-                    <g id="svg-Hall-10" onclick="selectFromMap('Hall 10')"><rect class="pavilion" x="265" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="305" y="69" text-anchor="middle">10</text></g>
-                    <g id="svg-Hall-9" onclick="selectFromMap('Hall 9')"><rect class="pavilion" x="265" y="115" width="80" height="155" rx="8" /><text class="pavilion-text" x="305" y="197" text-anchor="middle">9</text></g>
+                    <g id="svg-Hall-10" onclick="selectFromMap('Hall 10')"><rect class="pavilion" x="265" y="30" width="80" height="70" rx="8" /><text class="pavilion-text" x="305" y="73" text-anchor="middle">10</text></g>
+                    <g id="svg-Hall-9" onclick="selectFromMap('Hall 9')"><rect class="pavilion" x="265" y="115" width="80" height="155" rx="8" /><text class="pavilion-text" x="305" y="200" text-anchor="middle">9</text></g>
 
-                    <g id="svg-Hall-11" onclick="selectFromMap('Hall 11')"><rect class="pavilion" x="170" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="210" y="239" text-anchor="middle">11</text></g>
+                    <g id="svg-Hall-11" onclick="selectFromMap('Hall 11')"><rect class="pavilion" x="170" y="200" width="80" height="70" rx="8" /><text class="pavilion-text" x="210" y="243" text-anchor="middle">11</text></g>
                     
-                    <g id="svg-PALAEXPO" onclick="selectFromMap('PALAEXPO')"><rect class="pavilion" x="265" y="370" width="270" height="30" rx="6" /><text class="pavilion-text" x="400" y="389" text-anchor="middle" style="font-size:10px">PALAEXPO</text></g>
+                    <g id="svg-PALAEXPO" onclick="selectFromMap('PALAEXPO')"><rect class="pavilion" x="265" y="370" width="270" height="30" rx="6" /><text class="pavilion-text" x="400" y="392" text-anchor="middle" style="font-size:14px">PALAEXPO</text></g>
                 </svg>
             </div>
             <a href="https://wa.me/393331395730" target="_blank" class="side-wa hidden md:flex items-center justify-center px-4 font-black uppercase text-[10px] tracking-widest border-l border-white/20">ORDINA ORA</a>
